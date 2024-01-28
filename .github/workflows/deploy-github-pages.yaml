@@ -13,14 +13,14 @@ permissions:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.build-publish.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.2
-        with:
-          install_command: yarn install
-          build_command: yarn build-storybook
-          path: storybook-static
+    - id: build-publish
+      uses: bitovi/github-actions-storybook-to-github-pages@v1.0.2
+      with:
+        path: storybook-static
+        install_command: yarn install
+        build_command: yarn run build-storybook
